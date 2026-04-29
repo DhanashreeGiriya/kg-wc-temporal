@@ -1,0 +1,40 @@
+Core Configuration & Schemas:
+
+requirements.txt (Dependencies)
+schema.cypher (Neo4j Constraints and Indexes)
+.streamlit/config.toml (Dark-mode professional theme configuration)
+.streamlit/secrets.toml.example (Template for database credentials)
+Data Engines & Business Logic: 5. cohort_definitions.py (Domain catalog, phase state-machines, durations, and 8 specific Hero claims logic) 6. scenario_data_generator.py (2-phase deterministic state-machine generator for creating the ~400 claims) 7. similarity_engine.py (Calculates Demo + Shape + Pacing + Graph distances and persists :SIMILAR_TO edges) 8. graph_queries.py (Library for Neo4j queries utilized by the UI)
+
+Streamlit UI Components: 9. app.py (Driver initialization and design system) 10. pages/1_portfolio_overview.py (KPIs, claim roster grid, graph visualizations) 11. pages/2_similarity_workbench.py (Interactive weight adjustments, scenario exploration, trajectory alignments) 12. pages/3_admin.py (Run/Manage data generation and similarities)
+
+What are the Next Steps?
+To bring this application to life locally on your system, follow these steps:
+
+1. Create a Neo4j Database Instance You'll need a graph database for this to connect to. The application is built specifically to fit within the limits of the Neo4j AuraDB Free tier.
+
+Go to Neo4j Aura Console.
+Create a free blank AuraDB instance.
+Important: Save the generated .txt file containing your password.
+2. Configure your Credentials In your project workspace, rename .streamlit/secrets.toml.example to .streamlit/secrets.toml and fill it in with your AuraDB credentials:
+
+toml
+[neo4j]
+uri = "neo4j+s://xxxxxxxx.databases.neo4j.io"
+user = "neo4j"
+password = "your-password-here"
+3. Install Dependencies Open your terminal (in c:\Users\admin\projects\kg-wc-temporal) and install the python dependencies:
+
+bash
+pip install -r requirements.txt
+4. Start the Application Run Streamlit via your terminal:
+
+bash
+streamlit run app.py
+5. Populate the Graph Once the app opens in your browser, go to the Admin & Schema page (Page 3) and click:
+
+"2. Generate Synthetic Data (~400 claims)"
+"3. Compute Pairwise Similarity"
+At this point, the demo is fully populated, and you can freely explore the interactive scenarios in the Similarity Workbench.
+
+Let me know if you would like me to assist with running the pip install commands in your terminal or if you'd like to configure the secrets file now!
