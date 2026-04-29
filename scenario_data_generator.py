@@ -551,4 +551,3 @@ if __name__ == "__main__":
     generator.clear_database()
     generator.run_all()
     generator.close()
-

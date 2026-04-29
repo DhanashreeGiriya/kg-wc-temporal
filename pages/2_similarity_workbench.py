@@ -114,4 +114,3 @@ with col_res:
                 fig2 = px.bar(df_combined, base="StartDay", x="Duration", y="Claim", color="Phase", hover_name="Stage", orientation='h')
                 
                 st.plotly_chart(fig2, use_container_width=True)
-

@@ -190,4 +190,3 @@ def get_similar_claims_dynamic(driver, claim_id, k, weights):
                                         cid=claim_id, k=k,
                                         w_demo=w_demo, w_shape=w_shape, 
                                         w_pace=w_pace, w_graph=w_graph)]
-
