@@ -67,6 +67,11 @@ class SimilarityEngine:
         OPTIONAL MATCH (c)-[:REPRESENTED_BY]->(att:Attorney)
         OPTIONAL MATCH (c)-[:FIRST_EVENT]->()-[:NEXT*0..]->(cev:ClaimEvent)-[:TREATED_BY]->(prov:Provider)
         
+        WITH c, p, e, bp, ic, longest_chain,
+             adj.person_id  AS adjuster_id,
+             att.attorney_id AS attorney_id,
+             collect(DISTINCT prov.provider_id) AS provider_ids
+        
         RETURN 
             c.claim_id AS claim_id,
             c.status AS status,
@@ -80,9 +85,9 @@ class SimilarityEngine:
             [x IN longest_chain | x.stage] AS stage_chain,
             [x IN longest_chain | toFloat(x.duration_days)] AS durations,
             {
-                adjuster: adj.person_id,
-                attorney: att.attorney_id,
-                providers: collect(DISTINCT prov.provider_id)
+                adjuster: adjuster_id,
+                attorney: attorney_id,
+                providers: provider_ids
             } AS network
         """
         
@@ -97,7 +102,7 @@ class SimilarityEngine:
                 self.claims_data[cid] = {
                     "status": record["status"],
                     "demographics": record["demographics"],
-                    "stage_chain": "".join([s.ljust(10) for s in chain]), # RapidFuzz works on strings, pad to 10 chars
+                    "stage_chain": "".join([(s or "").ljust(10) for s in chain]), # RapidFuzz works on strings, pad to 10 chars
                     "durations": np.array(durs, dtype=np.double),
                     "network": record["network"]
                 }
